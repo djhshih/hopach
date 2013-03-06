@@ -2,6 +2,7 @@ package hopach;
 
 import java.io.DataInput;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 
 import clusterMaker.algorithms.attributeClusterers.pam.*;
 import clusterMaker.algorithms.attributeClusterers.hopach.*;
@@ -46,26 +47,33 @@ public class HopachClusterer {
 		// read distance matrix from file
 		Double[][] matrix = readBaseMatrix(distanceMatrixPath);
 		DistanceMatrix distances = new DistanceMatrix(DoubleMatrixToPrimitive(matrix), metric, null);
-	
+		
 		HopachablePAM partitioner = new HopachablePAM(data, metric, distances, null);
 		partitioner.setParameters(K, L, splitCost, summarizer);
 		
 		HopachPAM hopachPam = new HopachPAM(partitioner);
 		
+		int n = data.nRows();
+		
+		
 		// generate best split
 		System.out.println("Hopach-PAM");
 		hopachPam.setParameters(maxLevel,  minCostReduction,  forceInitSplit, psummarizer);
 		Clusters c = hopachPam.run();
-		for (int i = 0; i < c.size(); ++i) {
+		for (int i = 0; i < n; ++i) {
 			System.out.println(c.getLabel(i));
 		}
 		
 		// generate top level split
-		System.out.println("Hopach-PAM, top level");
-		hopachPam.setParameters(1, minCostReduction, forceInitSplit, psummarizer);
-		c = hopachPam.run();
-		for (int i = 0; i < c.size(); ++i) {
-			System.out.println(c.getLabel(i));
+		System.out.println("Hopach-PAM, split by level");
+		ArrayList<Clusters> cs = hopachPam.getSplits();
+		for (int i = 0; i < n; ++i) {
+			for (Clusters d : cs) {
+				if (d != null) {
+					System.out.printf("%d\t", d.getLabel(i));
+				}
+			}
+			System.out.println();
 		}
 		
 		System.out.println("PAM, k = " + k);
