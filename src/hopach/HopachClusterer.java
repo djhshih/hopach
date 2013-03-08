@@ -35,11 +35,11 @@ public class HopachClusterer {
 		DistanceMetric metric = DistanceMetric.EUCLIDEAN2;
 		Summarizer summarizer = new MedianSummarizer();
 		PrimitiveSummarizer psummarizer = new PrimitiveMedianSummarizer();
-		int K = 9, L = 9, maxLevel = 15;
+		int K = 4, L = 4, maxLevel = 15;
 		double minCostReduction = 0;
 		boolean forceInitSplit = true;
 		SplitCost splitCost = SplitCost.AVERAGE_SPLIT_SILHOUETTE;
-		int k = 8;
+		int k = 3;
 		
 		// read data from file
 		BaseMatrix data = new BaseMatrix(readBaseMatrix(dataMatrixPath));

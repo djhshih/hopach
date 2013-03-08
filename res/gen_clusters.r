@@ -2,8 +2,8 @@
 
 k = 8
 
-mu <- c(1, 2, 5, 6, 14, 15, 18, 19)
-X <- matrix(rnorm(240 * 25, 0, 0.5), nrow = 240, ncol = 25)
+mu <- c(1, 2, 3, 6, 14, 15, 18, 19)
+X <- matrix(rnorm(240 * 25, 0, 0.2), nrow = 240, ncol = 25)
 step <- 240/length(mu)
 for (m in 1:length(mu)) X[((m - 1) * step + 1):(m * step), ] <- X[((m - 1) * step + 1):(m * step), ] + mu[m]
 D <- dist(X, method = "euclidean")
